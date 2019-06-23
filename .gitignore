@@ -1,0 +1,5 @@
+*~
+my.*
+*tfstate*
+.terraform
+*account.json
