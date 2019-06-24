@@ -12,7 +12,7 @@ is_valid_provider(p) {
 # Check if the provider is in the approved provider list, and has the correct version
 is_approved_provider(p) {
   is_valid_provider(p)
-  p.version_constraint == data.approved_providers[p.name].version
+  p.version_constraint == data.constraints.approved_providers[p.name].version
 }
 
 # Have all defined providers has their version constraints defined?

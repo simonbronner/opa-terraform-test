@@ -1,0 +1,500 @@
+{
+    "configuration": {
+        "provider_config": {
+            "google": {
+                "expressions": {
+                    "credentials": {},
+                    "project": {
+                        "references": [
+                            "var.gcp_project_id"
+                        ]
+                    }
+                },
+                "name": "google",
+                "version_constraint": "2.9.1"
+            },
+            "null": {
+                "name": "null",
+                "version_constraint": "2.1.2"
+            }
+        },
+        "root_module": {
+            "resources": [
+                {
+                    "address": "google_compute_address.static",
+                    "expressions": {
+                        "name": {
+                            "constant_value": "ipv4-address"
+                        }
+                    },
+                    "mode": "managed",
+                    "name": "static",
+                    "provider_config_key": "google",
+                    "schema_version": 0,
+                    "type": "google_compute_address"
+                },
+                {
+                    "address": "google_compute_firewall.ssh-only",
+                    "expressions": {
+                        "allow": [
+                            {
+                                "protocol": {
+                                    "constant_value": "icmp"
+                                }
+                            },
+                            {
+                                "ports": {
+                                    "constant_value": [
+                                        "22"
+                                    ]
+                                },
+                                "protocol": {
+                                    "constant_value": "tcp"
+                                }
+                            }
+                        ],
+                        "name": {
+                            "constant_value": "test-firewall"
+                        },
+                        "network": {
+                            "references": [
+                                "google_compute_network.vpc_network"
+                            ]
+                        },
+                        "source_ranges": {
+                            "constant_value": [
+                                "0.0.0.0/0"
+                            ]
+                        }
+                    },
+                    "mode": "managed",
+                    "name": "ssh-only",
+                    "provider_config_key": "google",
+                    "schema_version": 1,
+                    "type": "google_compute_firewall"
+                },
+                {
+                    "address": "google_compute_instance.vm_instance",
+                    "expressions": {
+                        "boot_disk": [
+                            {
+                                "initialize_params": [
+                                    {
+                                        "image": {
+                                            "constant_value": "debian-cloud/debian-9"
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        "machine_type": {
+                            "constant_value": "f1-micro"
+                        },
+                        "name": {
+                            "constant_value": "terraform-instance"
+                        },
+                        "network_interface": [
+                            {
+                                "access_config": [
+                                    {
+                                        "nat_ip": {
+                                            "references": [
+                                                "google_compute_address.static"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "network": {
+                                    "references": [
+                                        "google_compute_network.vpc_network"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "mode": "managed",
+                    "name": "vm_instance",
+                    "provider_config_key": "google",
+                    "schema_version": 6,
+                    "type": "google_compute_instance"
+                },
+                {
+                    "address": "google_compute_network.vpc_network",
+                    "expressions": {
+                        "auto_create_subnetworks": {
+                            "constant_value": "true"
+                        },
+                        "name": {
+                            "constant_value": "terraform-network"
+                        }
+                    },
+                    "mode": "managed",
+                    "name": "vpc_network",
+                    "provider_config_key": "google",
+                    "schema_version": 0,
+                    "type": "google_compute_network"
+                }
+            ],
+            "variables": {
+                "gcp_project_id": {
+                    "default": "anz-poc-242806"
+                }
+            }
+        }
+    },
+    "format_version": "0.1",
+    "planned_values": {
+        "root_module": {
+            "resources": [
+                {
+                    "address": "google_compute_address.static",
+                    "mode": "managed",
+                    "name": "static",
+                    "provider_name": "google",
+                    "schema_version": 0,
+                    "type": "google_compute_address",
+                    "values": {
+                        "address_type": "EXTERNAL",
+                        "description": null,
+                        "name": "ipv4-address",
+                        "timeouts": null
+                    }
+                },
+                {
+                    "address": "google_compute_firewall.ssh-only",
+                    "mode": "managed",
+                    "name": "ssh-only",
+                    "provider_name": "google",
+                    "schema_version": 1,
+                    "type": "google_compute_firewall",
+                    "values": {
+                        "allow": [
+                            {
+                                "ports": [
+                                    "22"
+                                ],
+                                "protocol": "tcp"
+                            },
+                            {
+                                "ports": [],
+                                "protocol": "icmp"
+                            }
+                        ],
+                        "deny": [],
+                        "description": null,
+                        "disabled": null,
+                        "name": "test-firewall",
+                        "priority": 1000,
+                        "source_ranges": [
+                            "0.0.0.0/0"
+                        ],
+                        "source_service_accounts": null,
+                        "source_tags": null,
+                        "target_service_accounts": null,
+                        "target_tags": null,
+                        "timeouts": null
+                    }
+                },
+                {
+                    "address": "google_compute_instance.vm_instance",
+                    "mode": "managed",
+                    "name": "vm_instance",
+                    "provider_name": "google",
+                    "schema_version": 6,
+                    "type": "google_compute_instance",
+                    "values": {
+                        "allow_stopping_for_update": null,
+                        "attached_disk": [],
+                        "boot_disk": [
+                            {
+                                "auto_delete": true,
+                                "disk_encryption_key_raw": null,
+                                "initialize_params": [
+                                    {
+                                        "image": "debian-cloud/debian-9"
+                                    }
+                                ],
+                                "kms_key_self_link": null
+                            }
+                        ],
+                        "can_ip_forward": false,
+                        "deletion_protection": false,
+                        "description": null,
+                        "disk": [],
+                        "hostname": null,
+                        "labels": null,
+                        "machine_type": "f1-micro",
+                        "metadata": null,
+                        "metadata_startup_script": null,
+                        "min_cpu_platform": null,
+                        "name": "terraform-instance",
+                        "network_interface": [
+                            {
+                                "access_config": [
+                                    {
+                                        "public_ptr_domain_name": null
+                                    }
+                                ],
+                                "alias_ip_range": []
+                            }
+                        ],
+                        "scratch_disk": [],
+                        "service_account": [],
+                        "shielded_instance_config": [],
+                        "tags": null,
+                        "timeouts": null
+                    }
+                },
+                {
+                    "address": "google_compute_network.vpc_network",
+                    "mode": "managed",
+                    "name": "vpc_network",
+                    "provider_name": "google",
+                    "schema_version": 0,
+                    "type": "google_compute_network",
+                    "values": {
+                        "auto_create_subnetworks": true,
+                        "delete_default_routes_on_create": false,
+                        "description": null,
+                        "ipv4_range": null,
+                        "name": "terraform-network",
+                        "timeouts": null
+                    }
+                }
+            ]
+        }
+    },
+    "resource_changes": [
+        {
+            "address": "google_compute_address.static",
+            "change": {
+                "actions": [
+                    "create"
+                ],
+                "after": {
+                    "address_type": "EXTERNAL",
+                    "description": null,
+                    "name": "ipv4-address",
+                    "timeouts": null
+                },
+                "after_unknown": {
+                    "address": true,
+                    "creation_timestamp": true,
+                    "id": true,
+                    "network_tier": true,
+                    "project": true,
+                    "region": true,
+                    "self_link": true,
+                    "subnetwork": true,
+                    "users": true
+                },
+                "before": null
+            },
+            "mode": "managed",
+            "name": "static",
+            "provider_name": "google",
+            "type": "google_compute_address"
+        },
+        {
+            "address": "google_compute_firewall.ssh-only",
+            "change": {
+                "actions": [
+                    "create"
+                ],
+                "after": {
+                    "allow": [
+                        {
+                            "ports": [
+                                "22"
+                            ],
+                            "protocol": "tcp"
+                        },
+                        {
+                            "ports": [],
+                            "protocol": "icmp"
+                        }
+                    ],
+                    "deny": [],
+                    "description": null,
+                    "disabled": null,
+                    "name": "test-firewall",
+                    "priority": 1000,
+                    "source_ranges": [
+                        "0.0.0.0/0"
+                    ],
+                    "source_service_accounts": null,
+                    "source_tags": null,
+                    "target_service_accounts": null,
+                    "target_tags": null,
+                    "timeouts": null
+                },
+                "after_unknown": {
+                    "allow": [
+                        {
+                            "ports": [
+                                false
+                            ]
+                        },
+                        {
+                            "ports": []
+                        }
+                    ],
+                    "creation_timestamp": true,
+                    "deny": [],
+                    "destination_ranges": true,
+                    "direction": true,
+                    "id": true,
+                    "network": true,
+                    "project": true,
+                    "self_link": true,
+                    "source_ranges": [
+                        false
+                    ]
+                },
+                "before": null
+            },
+            "mode": "managed",
+            "name": "ssh-only",
+            "provider_name": "google",
+            "type": "google_compute_firewall"
+        },
+        {
+            "address": "google_compute_instance.vm_instance",
+            "change": {
+                "actions": [
+                    "create"
+                ],
+                "after": {
+                    "allow_stopping_for_update": null,
+                    "attached_disk": [],
+                    "boot_disk": [
+                        {
+                            "auto_delete": true,
+                            "disk_encryption_key_raw": null,
+                            "initialize_params": [
+                                {
+                                    "image": "debian-cloud/debian-9"
+                                }
+                            ],
+                            "kms_key_self_link": null
+                        }
+                    ],
+                    "can_ip_forward": false,
+                    "deletion_protection": false,
+                    "description": null,
+                    "disk": [],
+                    "hostname": null,
+                    "labels": null,
+                    "machine_type": "f1-micro",
+                    "metadata": null,
+                    "metadata_startup_script": null,
+                    "min_cpu_platform": null,
+                    "name": "terraform-instance",
+                    "network_interface": [
+                        {
+                            "access_config": [
+                                {
+                                    "public_ptr_domain_name": null
+                                }
+                            ],
+                            "alias_ip_range": []
+                        }
+                    ],
+                    "scratch_disk": [],
+                    "service_account": [],
+                    "shielded_instance_config": [],
+                    "tags": null,
+                    "timeouts": null
+                },
+                "after_unknown": {
+                    "attached_disk": [],
+                    "boot_disk": [
+                        {
+                            "device_name": true,
+                            "disk_encryption_key_sha256": true,
+                            "initialize_params": [
+                                {
+                                    "size": true,
+                                    "type": true
+                                }
+                            ],
+                            "source": true
+                        }
+                    ],
+                    "cpu_platform": true,
+                    "disk": [],
+                    "guest_accelerator": true,
+                    "id": true,
+                    "instance_id": true,
+                    "label_fingerprint": true,
+                    "metadata_fingerprint": true,
+                    "network_interface": [
+                        {
+                            "access_config": [
+                                {
+                                    "assigned_nat_ip": true,
+                                    "nat_ip": true,
+                                    "network_tier": true
+                                }
+                            ],
+                            "address": true,
+                            "alias_ip_range": [],
+                            "name": true,
+                            "network": true,
+                            "network_ip": true,
+                            "subnetwork": true,
+                            "subnetwork_project": true
+                        }
+                    ],
+                    "project": true,
+                    "scheduling": true,
+                    "scratch_disk": [],
+                    "self_link": true,
+                    "service_account": [],
+                    "shielded_instance_config": [],
+                    "tags_fingerprint": true,
+                    "zone": true
+                },
+                "before": null
+            },
+            "mode": "managed",
+            "name": "vm_instance",
+            "provider_name": "google",
+            "type": "google_compute_instance"
+        },
+        {
+            "address": "google_compute_network.vpc_network",
+            "change": {
+                "actions": [
+                    "create"
+                ],
+                "after": {
+                    "auto_create_subnetworks": true,
+                    "delete_default_routes_on_create": false,
+                    "description": null,
+                    "ipv4_range": null,
+                    "name": "terraform-network",
+                    "timeouts": null
+                },
+                "after_unknown": {
+                    "gateway_ipv4": true,
+                    "id": true,
+                    "project": true,
+                    "routing_mode": true,
+                    "self_link": true
+                },
+                "before": null
+            },
+            "mode": "managed",
+            "name": "vpc_network",
+            "provider_name": "google",
+            "type": "google_compute_network"
+        }
+    ],
+    "terraform_version": "0.12.2",
+    "variables": {
+        "gcp_project_id": {
+            "value": "anz-poc-242806"
+        }
+    }
+}
