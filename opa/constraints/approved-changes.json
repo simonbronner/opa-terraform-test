@@ -1,0 +1,9 @@
+{
+    "approved_changes" :
+    {
+        "google_compute_network.vpc_network": ["create", "delete", "read"],
+        "google_compute_instance.vm_instance": ["create"],
+        "google_compute_firewall.ssh-only": ["create"],
+        "google_compute_address.static": ["create"]
+    }
+}
