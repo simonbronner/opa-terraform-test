@@ -1,5 +1,5 @@
 provider "google" {
-  project = "simon-bronner-contino-project"
+  project = "${var.gcp_project_id}"
   credentials = "${file("account.json")}"
   version = "2.9.1"
 }
@@ -46,7 +46,4 @@ resource "google_compute_instance" "vm_instance" {
     }
   }
 
-  metadata = {
-    ssh-keys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}"
-  }
 }
