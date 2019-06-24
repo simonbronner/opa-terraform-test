@@ -4,6 +4,10 @@ provider "google" {
   version = "2.9.1"
 }
 
+provider "null" {
+  version = "2.1.2"
+}
+
 resource "google_compute_network" "vpc_network" {
   name                    = "terraform-network"
   auto_create_subnetworks = "true"
