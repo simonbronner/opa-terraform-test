@@ -1,6 +1,6 @@
 # Open Policy Agent Terraform Example
 
-This repo contains a basic set of rules to exercise bespoke (Open Policy Agent)[https://www.openpolicyagent.org/] rules against a terraform (0.12.x) plan file.
+This repo contains a basic set of rules to exercise bespoke [Open Policy Agent](https://www.openpolicyagent.org/) rules against a terraform (0.12.x) plan file.
 
 FWIW this code is largely an excercise in learning about OPA capabilities.
 
